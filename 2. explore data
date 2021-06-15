@@ -26,7 +26,6 @@ SELECT
         (SELECT SUM(tripduration) 
         FROM `cyclistic-315402.new_york_citibike.citibike_2015` 
         WHERE gender!= '')*100  As tripduration_ation
-    
 FROM 
     `cyclistic-315402.new_york_citibike.citibike_2015` 
 WHERE 
@@ -38,19 +37,16 @@ GROUP BY
 SELECT 
     gender                          AS gender, 
     Count(*)                        AS usage_count,
-    COUNT(*) / 
-    (Select COUNT(*)
-    FROM `cyclistic-315402.new_york_citibike.citibike_2015`  
-    WHERE gender!= '')*100          AS count_ratio,
+    ROUND(COUNT(*) / 
+        (Select COUNT(*)
+        FROM `cyclistic-315402.new_york_citibike.citibike_2015`  
+        WHERE gender!= '')*100, 2)  AS count_ratio,
     SUM(tripduration)               AS total_duration,
     ROUND(SUM(tripduration)/ 
         (SELECT SUM(tripduration) 
         FROM `cyclistic-315402.new_york_citibike.citibike_2015` 
-        WHERE gender!= '')*100, 2)  As tripduration_ration
-    
+        WHERE gender!= '')*100, 2)  As tripduration_ration  
 FROM 
     `cyclistic-315402.new_york_citibike.citibike_2015` 
 GROUP BY 
-    gender;
-
-
+    gender
