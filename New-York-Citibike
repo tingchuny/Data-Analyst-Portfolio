@@ -40,7 +40,7 @@ SELECT
     start_date,
     start_station_name,
     start_station_latitude,
-    start_station_longitude,
+    start_station_longitude, 
     end_station_name,
     end_station_latitude,
     end_station_longitude,
