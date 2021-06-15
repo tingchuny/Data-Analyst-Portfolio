@@ -1,24 +1,24 @@
-### Create a new table by selecting the needed columns for the analysis 
-## create new column 'age_group' using the birth_year column and replace it
-## selecting rows from only 2015
+/* Create a new table by selecting the needed columns for the analysis 
+create new column 'age_group' using the birth_year column and replace it
+selecting rows from only 2015 */
 
 
 WITH new_citibike_data AS (
 
     SELECT
-        tripduration,
-        starttime,
-        stoptime,
-        DATE(DATE_TRUNC(starttime, month)) AS start_date,
-        start_station_name,
-        start_station_latitude,
-        start_station_longitude,
-        end_station_name,
-        end_station_latitude,
-        end_station_longitude,
-        bikeid,
-        birth_year,
-        gender,
+        tripduration                        AS tripduration,
+        starttime                           AS starttime,
+        stoptime                            AS stoptime,
+        DATE(DATE_TRUNC(starttime, month))  AS start_date,
+        start_station_name                  AS start_station_name,
+        start_station_latitude              AS start_station_latitude,
+        start_station_longitude             AS start_station_longitude,
+        end_station_name                    AS end_station_name,
+        end_station_latitude                AS end_station_latitude,
+        end_station_longitude               AS end_station_longitude,
+        bikeid                              AS bikeid,
+        birth_year                          AS birth_year,
+        gender                              AS gender,
         CASE 
             WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 18 THEN '<18'
             WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 26 THEN '18-25'
@@ -29,7 +29,7 @@ WITH new_citibike_data AS (
             WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 76 THEN '66-75'
             ELSE '>75'
         END 
-                                    AS age_group,
+                                            AS age_group,
     FROM 
         `bigquery-public-data.new_york_citibike.citibike_trips`
 
@@ -51,3 +51,5 @@ FROM
     new_citibike_data 
 WHERE 
     EXTRACT(YEAR FROM start_date) = 2015
+    AND birth_year IS NOT null 
+    AND gender != ''
