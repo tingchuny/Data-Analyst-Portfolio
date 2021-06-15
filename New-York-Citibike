@@ -1,0 +1,53 @@
+### Create a new table by selecting the needed columns for the analysis 
+## create new column 'age_group' using the birth_year column and replace it
+## selecting rows from only 2015
+
+
+WITH new_citibike_data AS (
+
+    SELECT
+        tripduration,
+        starttime,
+        stoptime,
+        DATE(DATE_TRUNC(starttime, month)) AS start_date,
+        start_station_name,
+        start_station_latitude,
+        start_station_longitude,
+        end_station_name,
+        end_station_latitude,
+        end_station_longitude,
+        bikeid,
+        birth_year,
+        gender,
+        CASE 
+            WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 18 THEN '<18'
+            WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 26 THEN '18-25'
+            WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 36 THEN '26-35'
+            WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 46 THEN '36-45'
+            WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 56 THEN '46-55'
+            WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 66 THEN '56-65'
+            WHEN date_diff(Date (stoptime), DATE(birth_year, 01, 01), year) < 76 THEN '66-75'
+            ELSE '>75'
+        END 
+                                    AS age_group,
+    FROM 
+        `bigquery-public-data.new_york_citibike.citibike_trips`
+
+)
+
+SELECT 
+    tripduration,
+    start_date,
+    start_station_name,
+    start_station_latitude,
+    start_station_longitude,
+    end_station_name,
+    end_station_latitude,
+    end_station_longitude,
+    bikeid,
+    age_group,
+    gender
+FROM 
+    new_citibike_data 
+WHERE 
+    CAST(start_date AS STRING) LIKE '2015-%%-01'
