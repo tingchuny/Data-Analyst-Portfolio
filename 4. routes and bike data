@@ -1,0 +1,39 @@
+/* Sort routes by number of visits to find out which routes have the higher volume */
+
+
+SELECT
+    age_group                           AS age_group,
+    COUNT(*)                            AS route_count,
+    start_station_name                  AS start_station_name,
+    end_station_name                    AS end_station_name
+
+FROM 
+    `cyclistic-315402.new_york_citibike.citibike_2015`  
+
+GROUP BY 
+    age_group,
+    start_station_name,
+    end_station_name
+
+ORDER BY 
+    route_count DESC;
+    
+
+/* sort bikeid by the most used to least */
+
+SELECT
+    bikeid                                                         AS bikeid,
+    start_station_name                                             AS start_station_name, 
+    end_station_name                                               AS end_station_name,
+    SUM(tripduration)                                              AS used_duration,
+    SUM(tripduration)/
+        (SELECT Sum(tripduration)/COUNT(DISTINCT bikeid)
+        FROM `cyclistic-315402.new_york_citibike.citibike_2015`)   AS ration_to_avg
+FROM 
+    `cyclistic-315402.new_york_citibike.citibike_2015`   
+GROUP BY 
+    bikeid,
+    start_station_name,
+    end_station_name    
+ORDER BY 
+    used_duration DESC    
