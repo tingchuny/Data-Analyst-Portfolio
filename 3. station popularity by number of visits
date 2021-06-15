@@ -1,0 +1,67 @@
+/* find out how many times each station was visited
+as both starting station and ending station
+along with ratio % */
+
+WITH start_station_table AS (
+
+    SELECT 
+        start_station_name              AS start_station_name,
+        COUNT(start_station_name)       AS start_station_count
+    FROM 
+        `cyclistic-315402.new_york_citibike.citibike_2015`
+    GROUP BY 
+        start_station_name
+
+),  end_station_table AS(
+
+    SELECT 
+        end_station_name                AS end_station_name,
+        COUNT(end_station_name)         AS end_station_count,
+        end_station_latitude            AS station_latitude,
+        end_station_longitude           AS station_longitude
+    FROM 
+        `cyclistic-315402.new_york_citibike.citibike_2015`
+    GROUP BY 
+        end_station_name,
+        station_latitude,
+        station_longitude
+),  station_visits AS(
+
+    SELECT 
+        end_station_name                 AS station_name,
+        IFNULL(start_station_count, 0)   AS start_station_count,
+        IFNULL(end_station_count, 0)     AS end_station_count,
+        IFNULL(start_station_count, 0) + 
+        IFNULL(end_station_count, 0)     AS combined_count,
+        station_latitude,
+        station_longitude
+       
+    FROM 
+        start_station_table
+        FULL JOIN 
+        end_station_table 
+        ON start_station_table.start_station_name = end_station_table.end_station_name 
+        #(cannot rename column using AS in FROM?)
+        
+)
+
+SELECT 
+    station_name                        AS station_name,
+    start_station_count                 AS start_count,
+    ROUND(start_station_count  / 
+        (SELECT SUM(start_station_count) 
+        FROM station_visits) * 100, 2)  AS start_ratio,
+    end_station_count                   AS end_count,
+    ROUND(end_station_count    / 
+        (SELECT SUM(end_station_count)
+        FROM station_visits) * 100, 2)  AS end_ratio,
+    combined_count                      AS total_count,
+    ROUND(combined_count / 
+        (SELECT SUM(combined_count) 
+        FROM station_visits )*100,2)    AS total_ratio,
+        station_latitude,
+        station_longitude
+FROM 
+    station_visits 
+ORDER BY 
+    combined_count DESC
