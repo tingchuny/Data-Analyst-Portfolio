@@ -3,7 +3,7 @@ create new column 'age_group' using the birth_year column and replace it
 selecting rows from only 2015 */
 
 
-WITH new_citibike_data AS (
+WITH citibike_2015 AS (
 
     SELECT
         tripduration                        AS tripduration,
@@ -48,7 +48,7 @@ SELECT
     age_group,
     gender
 FROM 
-    new_citibike_data 
+    citibike_2015 
 WHERE 
     EXTRACT(YEAR FROM start_date) = 2015
     AND birth_year IS NOT null 
