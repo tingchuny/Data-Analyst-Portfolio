@@ -1,0 +1,56 @@
+/* queries that helped gained understanding of the data */
+
+SELECT 
+    age_group                                                  AS age_group,
+    SUM(CASE WHEN gender = "male"    THEN tripduration END)    AS male_duration,
+    SUM(CASE WHEN gender = "female"  THEN tripduration END)    AS female_duration,
+    SUM(CASE WHEN gender = "unknown" THEN tripduration END)    AS other_duration,
+    SUM(tripduration)                                          AS total_duration
+FROM
+    `cyclistic-315402.new_york_citibike.citibike_2015`     
+GROUP BY 
+    age_group
+ORDER BY
+    total_duration DESC;
+    
+    
+SELECT 
+    gender                      AS gender, 
+    Count(*)                    AS usage_count,
+    COUNT(*) / 
+    (Select COUNT(*)
+    FROM `cyclistic-315402.new_york_citibike.citibike_2015`  
+    WHERE gender!= '')*100      AS cout_ratio,
+    SUM(tripduration)           AS total_duration,
+    SUM(tripduration)/ 
+        (SELECT SUM(tripduration) 
+        FROM `cyclistic-315402.new_york_citibike.citibike_2015` 
+        WHERE gender!= '')*100  As tripduration_ation
+    
+FROM 
+    `cyclistic-315402.new_york_citibike.citibike_2015` 
+WHERE 
+    gender != ''    
+GROUP BY 
+    gender;
+    
+    
+SELECT 
+    gender                          AS gender, 
+    Count(*)                        AS usage_count,
+    COUNT(*) / 
+    (Select COUNT(*)
+    FROM `cyclistic-315402.new_york_citibike.citibike_2015`  
+    WHERE gender!= '')*100          AS count_ratio,
+    SUM(tripduration)               AS total_duration,
+    ROUND(SUM(tripduration)/ 
+        (SELECT SUM(tripduration) 
+        FROM `cyclistic-315402.new_york_citibike.citibike_2015` 
+        WHERE gender!= '')*100, 2)  As tripduration_ration
+    
+FROM 
+    `cyclistic-315402.new_york_citibike.citibike_2015` 
+GROUP BY 
+    gender;
+
+
