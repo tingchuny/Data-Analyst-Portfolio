@@ -1,4 +1,7 @@
-/* queries that helped gained understanding of the data */
+/*
+Queries that helped gained understanding of the dataset
+*/
+
 
 SELECT 
     age_group                                                  AS age_group,
@@ -12,22 +15,26 @@ GROUP BY
     age_group
 ORDER BY
     total_duration DESC;
-    
-    
-SELECT 
-    gender                      AS gender, 
-    Count(*)                    AS usage_count,
-    COUNT(*) / 
-    (Select COUNT(*)
-    FROM `cyclistic-315402.new_york_citibike.citibike_2015`  
-    WHERE gender!= '')*100      AS cout_ratio,
-    SUM(tripduration)           AS total_duration,
-    SUM(tripduration)/ 
-        (SELECT SUM(tripduration) 
-        FROM `cyclistic-315402.new_york_citibike.citibike_2015` 
-        WHERE gender!= '')*100  As tripduration_ation
+
+
+WITH overall_data AS (
+    SELECT 
+        COUNT(*)             AS bike_trips_count,
+        SUM(tripduration)    AS trip_duration_sum
+    FROM
+        `cyclistic-315402.new_york_citibike.citibike_2015`
+    WHERE
+        gender!= ''
+)
+
+SELECT
+    gender                                                                          AS gender, 
+    COUNT(*)                                                                        AS usage_count,
+    COUNT(*) /          (SELECT bike_trips_count FROM overall_data) * 100           AS usage_count_ratio,
+    SUM(tripduration)                                                               AS total_duration,
+    SUM(tripduration) / (SELECT trip_duration_sum FROM overall_data) * 100          AS trip_duration_ratio
 FROM 
-    `cyclistic-315402.new_york_citibike.citibike_2015` 
+    `cyclistic-315402.new_york_citibike.citibike_2015`
 WHERE 
     gender != ''    
 GROUP BY 
