@@ -1,0 +1,65 @@
+
+WITH top_routes AS (
+
+    # Top 200 routes (by number of trips)
+        
+    SELECT
+        start_station_name                 AS start_station_name,
+        end_station_name                   AS end_station_name,
+        COUNT(*)                           AS trip_count
+    FROM
+        `cyclistic-315402.new_york_citibike.to_tableau`
+    GROUP BY 
+        start_station_name,
+        end_station_name
+    ORDER BY 
+        trip_count DESC
+    LIMIT
+        200
+    
+), monthly_route_metrics AS (
+
+    # Monthly route trip counts
+
+    SELECT
+        DATE(DATE_TRUNC(starttime, MONTH))    AS start_month,
+        start_station_name                    AS start_station_name,
+        end_station_name                      AS end_station_name,
+        age_group                             AS age_group,
+        COUNT(*)                              AS trip_count,
+        SUM(tripduration) / 3600              AS trip_duration_hour_sum
+    FROM
+        `cyclistic-315402.new_york_citibike.to_tableau`
+    GROUP BY 
+        start_month,
+        start_station_name,
+        end_station_name,
+        age_group
+
+)
+
+# Top 200 route performance by month
+
+SELECT 
+    monthly.start_month                                                          AS start_month,
+    monthly.start_station_name                                                   AS start_station_name,
+    monthly.end_station_name                                                     AS end_station_name,
+    CONCAT(monthly.start_station_name , ' - ', monthly.end_station_name )        AS route_identifier,
+    CASE WHEN top.start_station_name IS NOT NULL THEN 1 ELSE 0 END               AS is_a_top_route,
+    monthly.age_group                                                            AS age_group,
+    SUM(monthly.trip_count)                                                      AS trip_count,
+    ROUND(SUM(monthly.trip_duration_hour_sum), 2)                                AS trip_duration_hour,
+    ROUND(SUM(monthly.trip_duration_hour_sum) / SUM(monthly.trip_count) * 60)    AS trip_duration_min_avg
+FROM
+    monthly_route_metrics AS monthly
+    LEFT JOIN top_routes  AS top     ON  top.start_station_name = monthly.start_station_name 
+                                     AND top.end_station_name   = monthly.end_station_name
+GROUP BY 
+    monthly.start_month, 
+    monthly.start_station_name,
+    monthly.end_station_name,
+    route_identifier,
+    is_a_top_route,
+    monthly.age_group
+ORDER BY 
+    trip_count DESC 
