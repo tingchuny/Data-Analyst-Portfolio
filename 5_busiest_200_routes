@@ -1,4 +1,3 @@
-
 WITH top_routes AS (
 
     # Top 200 routes (by number of trips)
@@ -44,7 +43,7 @@ SELECT
     monthly.start_month                                                          AS start_month,
     monthly.start_station_name                                                   AS start_station_name,
     monthly.end_station_name                                                     AS end_station_name,
-    CONCAT(monthly.start_station_name , ' - ', monthly.end_station_name )        AS route_identifier,
+    CONCAT(monthly.start_station_name, ' - ', monthly.end_station_name )         AS route_identifier,
     CASE WHEN top.start_station_name IS NOT NULL THEN 1 ELSE 0 END               AS is_a_top_route,
     monthly.age_group                                                            AS age_group,
     SUM(monthly.trip_count)                                                      AS trip_count,
