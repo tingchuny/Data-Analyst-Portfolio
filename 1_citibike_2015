@@ -1,6 +1,8 @@
-/* Create a new table by selecting the needed columns for the analysis 
-create new column 'age_group' using the birth_year column and replace it
-selecting rows from only 2015 */
+/*
+Create a staging table by selecting the needed columns for the analysis 
+Create a new column 'age_group' using the birth_year column
+Selecting rows from only 2015
+*/
 
 
 WITH citibike_2015 AS (
