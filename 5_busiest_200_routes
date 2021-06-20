@@ -26,7 +26,7 @@ WITH top_routes AS (
         end_station_name                      AS end_station_name,
         age_group                             AS age_group,
         COUNT(*)                              AS trip_count,
-        SUM(tripduration) / 3600              AS trip_duration_hour_sum
+        SUM(trip_duration) / 3600              AS trip_duration_hour_sum
     FROM
         `cyclistic-315402.new_york_citibike.to_tableau`
     GROUP BY 
