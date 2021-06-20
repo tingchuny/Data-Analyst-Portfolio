@@ -5,10 +5,10 @@ Queries that helped gained understanding of the dataset
 
 SELECT 
     age_group                                                  AS age_group,
-    SUM(CASE WHEN gender = "male"    THEN tripduration END)    AS male_duration,
-    SUM(CASE WHEN gender = "female"  THEN tripduration END)    AS female_duration,
-    SUM(CASE WHEN gender = "unknown" THEN tripduration END)    AS other_duration,
-    SUM(tripduration)                                          AS total_duration
+    SUM(CASE WHEN gender = "male"    THEN trip_duration END)    AS male_duration,
+    SUM(CASE WHEN gender = "female"  THEN trip_duration END)    AS female_duration,
+    SUM(CASE WHEN gender = "unknown" THEN trip_duration END)    AS other_duration,
+    SUM(trip_duration)                                          AS total_duration
 FROM
     `cyclistic-315402.new_york_citibike.citibike_2015`     
 GROUP BY 
@@ -21,7 +21,7 @@ WITH overall_data AS (
 
     SELECT 
         COUNT(*)             AS bike_trips_count,
-        SUM(tripduration)    AS trip_duration_sum
+        SUM(trip_duration)    AS trip_duration_sum
     FROM
         `cyclistic-315402.new_york_citibike.citibike_2015`
     WHERE
@@ -33,8 +33,8 @@ SELECT
     gender                                                                          AS gender, 
     COUNT(*)                                                                        AS usage_count,
     COUNT(*) /          (SELECT bike_trips_count FROM overall_data) * 100           AS usage_count_ratio,
-    SUM(tripduration)                                                               AS total_duration,
-    SUM(tripduration) / (SELECT trip_duration_sum FROM overall_data) * 100          AS trip_duration_ratio
+    SUM(trip_duration)                                                               AS total_duration,
+    SUM(trip_duration) / (SELECT trip_duration_sum FROM overall_data) * 100          AS trip_duration_ratio
 FROM 
     `cyclistic-315402.new_york_citibike.citibike_2015`
 WHERE 
