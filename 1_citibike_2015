@@ -8,7 +8,7 @@ Selecting rows from only 2015
 WITH citibike_2015 AS (
 
     SELECT
-        tripduration                        AS tripduration,
+        trip_duration                        AS trip_duration,
         starttime                           AS starttime,
         stoptime                            AS stoptime,
         DATE(DATE_TRUNC(starttime, month))  AS start_date,
@@ -38,7 +38,7 @@ WITH citibike_2015 AS (
 )
 
 SELECT 
-    tripduration,
+    trip_duration,
     start_date,
     start_station_name,
     start_station_latitude,
