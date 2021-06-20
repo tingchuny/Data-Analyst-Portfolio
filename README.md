@@ -1,5 +1,5 @@
 # Data-Analyst-Portfolio
-This repository is for the projects I've done on the Coursera Google Data Analytics Professional Certificate program.
+This repository is for the project I did during the Coursera Google Data Analytics Professional Certificate program.
 
 The dataset that is being used is from the New York Citi Bike dataset on GCP public dataset.
 SQL queries are written using Google BigQuery.
