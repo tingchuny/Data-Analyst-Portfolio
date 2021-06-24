@@ -1,3 +1,9 @@
+#Simplified long query
+
+#Before
+
+WITH a AS (
+
 SELECT
     name,
     grade,
@@ -9,7 +15,9 @@ WHERE
     grade >= 8
 ORDER BY
     grade DESC,
-    name ASC)
+    name ASC
+
+)
 
 ,b AS (
 
@@ -25,15 +33,14 @@ WHERE
 ORDER BY 
     grade DESC,
     marks ASC
+
 )
 
 SELECT
     *
 FROM
-    a
-    
+    a  
 UNION ALL
-
 SELECT
     *
 FROM
@@ -42,8 +49,9 @@ ORDER BY
     grade DESC,
     name ASC,
     marks ASC
-
 ;
+
+#After
 
 SELECT
     IF(grade <8, NULL, name) AS name,
