@@ -28,3 +28,18 @@ FROM
     LEFT JOIN producer AS pr ON p.producer_id = pr.id
 WHERE
     s.product_id IS NULL;
+
+
+/*
+Query items' name/price and filter the departments
+*/
+SELECT
+	p.name,
+    p.price
+FROM
+	product AS p
+    JOIN department 	AS d 	ON p.department_id = d.id
+    LEFT JOIN producer 	AS pr 	ON pr.id = p.producer_id
+    							AND pr.name != 'GoodFoods'
+WHERE
+	d.name IN ('fruits', 'vegetables')
