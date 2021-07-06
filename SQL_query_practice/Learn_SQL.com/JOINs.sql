@@ -43,3 +43,30 @@ FROM
     							AND pr.name != 'GoodFoods'
 WHERE
 	d.name IN ('fruits', 'vegetables')
+	
+	
+	
+	
+/*
+Join course end exercise
+*/
+	
+SELECT
+    s.id,
+    l.name,
+    s.language,
+    s.group_level,
+    t.day,
+    t.hour
+FROM
+    student_group   AS s
+    JOIN timetable  AS t    ON s.id         = t.group_id
+    JOIN timetable  AS t2   ON t.group_id   = t2.group_id
+    JOIN lecturer   AS l    ON l.id         = s.lecturer_id
+    JOIN tuition    AS tu   ON tu.group_id  = s.id
+WHERE
+	t.hour = t2.hour
+    AND
+    t.day != t2.day
+    AND
+	cost > 800
