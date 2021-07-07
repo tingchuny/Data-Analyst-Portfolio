@@ -11,7 +11,8 @@ WHERE
     p.id IN (13, 18, 15)
 ORDER BY
     s.date, n.calories;
-    
+
+
 /*
 query items that is null between the 2 dates.
 */
@@ -45,12 +46,9 @@ WHERE
 	d.name IN ('fruits', 'vegetables')
 	
 	
-	
-	
 /*
 Join course end exercise
 */
-	
 SELECT
     s.id,
     l.name,
