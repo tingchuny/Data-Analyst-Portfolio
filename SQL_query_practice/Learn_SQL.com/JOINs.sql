@@ -16,17 +16,19 @@ ORDER BY
 /*
 query items that is null between the 2 dates.
 */
+
 SELECT
     p.name  AS product_name,
-    p.price    AS price,
+    p.price AS price,
     pr.name AS company_name
     
 FROM
-    product AS p
-    LEFT JOIN sales_history AS s 
+    product 					AS p
+    LEFT JOIN sales_history 	AS s 
         ON s.product_id = p.id
         AND s.date BETWEEN '2015-02-01' AND '2015-02-05'
-    LEFT JOIN producer AS pr ON p.producer_id = pr.id
+    LEFT JOIN producer 			AS pr 
+		ON p.producer_id = pr.id
 WHERE
     s.product_id IS NULL;
 
@@ -34,11 +36,12 @@ WHERE
 /*
 Query items' name/price and filter the departments
 */
+
 SELECT
 	p.name,
     p.price
 FROM
-	product AS p
+	product 			AS p
     JOIN department 	AS d 	ON p.department_id = d.id
     LEFT JOIN producer 	AS pr 	ON pr.id = p.producer_id
     							AND pr.name != 'GoodFoods'
