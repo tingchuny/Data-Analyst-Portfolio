@@ -71,3 +71,32 @@ WHERE
     t.day != t2.day
     AND
 	cost > 800
+
+
+/*
+2 queries with the same result
+*/
+
+SELECT
+	o.id 				AS order_id,
+    c.first_name		AS first_name,
+    c.last_name			AS last_name,
+    SUM(oi.price) 		AS revenue
+FROM
+	orders 				AS o
+    JOIN clients 		AS c 	ON c.id = o.client_id
+    JOIN order_items 	AS oi 	ON o.id = oi.order_id
+GROUP BY
+	1,2,3;
+	
+SELECT
+	o.id 						AS order_id,
+    c.first_name				AS first_name,
+    c.last_name					AS last_name,
+    (SELECT SUM(price)
+     FROM order_items 			AS oi
+     WHERE oi.order_id = o.id) 	AS revenue
+FROM
+	orders 						AS o
+    JOIN
+    clients 					AS c ON c.id = o.client_id
