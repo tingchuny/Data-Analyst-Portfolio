@@ -98,5 +98,4 @@ SELECT
      WHERE oi.order_id = o.id)  AS revenue
 FROM
     orders                      AS o
-    JOIN
-    clients                     AS c ON c.id = o.client_id
+    JOIN clients                AS c ON c.id = o.client_id
