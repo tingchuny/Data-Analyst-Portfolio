@@ -74,7 +74,7 @@ WHERE
 
 
 /*
-2 queries with the same result
+2 queries with the same results
 */
 
 SELECT
