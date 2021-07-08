@@ -5,7 +5,7 @@ SELECT
     n.calories
 FROM
     sales_history       AS s
-    JOIN product		AS p ON s.product_id = p.id
+    JOIN product        AS p ON s.product_id = p.id
     JOIN nutrition_data AS n ON n.product_id = p.id
 WHERE
     p.id IN (13, 18, 15)
@@ -23,12 +23,12 @@ SELECT
     pr.name AS company_name
     
 FROM
-    product 					AS p
-    LEFT JOIN sales_history 	AS s 
+    product                     AS p
+    LEFT JOIN sales_history     AS s 
         ON s.product_id = p.id
         AND s.date BETWEEN '2015-02-01' AND '2015-02-05'
-    LEFT JOIN producer 			AS pr 
-		ON p.producer_id = pr.id
+    LEFT JOIN producer          AS pr 
+        ON p.producer_id = pr.id
 WHERE
     s.product_id IS NULL;
 
@@ -38,17 +38,17 @@ Query items' name/price and filter the departments
 */
 
 SELECT
-	p.name,
+    p.name,
     p.price
 FROM
-	product 			AS p
-    JOIN department 	AS d 	ON p.department_id = d.id
-    LEFT JOIN producer 	AS pr 	ON pr.id = p.producer_id
-    							AND pr.name != 'GoodFoods'
+    product             AS p
+    JOIN department     AS d     ON p.department_id = d.id
+    LEFT JOIN producer     AS pr     ON pr.id = p.producer_id
+                                AND pr.name != 'GoodFoods'
 WHERE
-	d.name IN ('fruits', 'vegetables')
-	
-	
+    d.name IN ('fruits', 'vegetables')
+    
+    
 /*
 Join course end exercise
 */
@@ -66,11 +66,11 @@ FROM
     JOIN lecturer   AS l    ON l.id         = s.lecturer_id
     JOIN tuition    AS tu   ON tu.group_id  = s.id
 WHERE
-	t.hour = t2.hour
+    t.hour = t2.hour
     AND
     t.day != t2.day
     AND
-	cost > 800
+    cost > 800
 
 
 /*
@@ -78,25 +78,25 @@ WHERE
 */
 
 SELECT
-	o.id 				AS order_id,
-    c.first_name		AS first_name,
-    c.last_name			AS last_name,
-    SUM(oi.price) 		AS revenue
+    o.id                AS order_id,
+    c.first_name        AS first_name,
+    c.last_name         AS last_name,
+    SUM(oi.price)       AS revenue
 FROM
-	orders 				AS o
-    JOIN clients 		AS c 	ON c.id = o.client_id
-    JOIN order_items 	AS oi 	ON o.id = oi.order_id
+    orders              AS o
+    JOIN clients        AS c     ON c.id = o.client_id
+    JOIN order_items    AS oi     ON o.id = oi.order_id
 GROUP BY
-	1,2,3;
-	
+    1,2,3;
+    
 SELECT
-	o.id 						AS order_id,
-    c.first_name				AS first_name,
-    c.last_name					AS last_name,
+    o.id                        AS order_id,
+    c.first_name                AS first_name,
+    c.last_name                 AS last_name,
     (SELECT SUM(price)
-     FROM order_items 			AS oi
-     WHERE oi.order_id = o.id) 	AS revenue
+     FROM order_items    AS oi
+     WHERE oi.order_id = o.id)  AS revenue
 FROM
-	orders 						AS o
+    orders                      AS o
     JOIN
-    clients 					AS c ON c.id = o.client_id
+    clients                     AS c ON c.id = o.client_id
