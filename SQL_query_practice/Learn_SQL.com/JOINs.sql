@@ -4,8 +4,8 @@ SELECT
     s.amount,
     n.calories
 FROM
-    sales_history         AS s
-    JOIN product         AS p ON s.product_id = p.id
+    sales_history       AS s
+    JOIN product		AS p ON s.product_id = p.id
     JOIN nutrition_data AS n ON n.product_id = p.id
 WHERE
     p.id IN (13, 18, 15)
