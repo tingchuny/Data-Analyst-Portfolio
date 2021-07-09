@@ -33,10 +33,6 @@ WHERE
         WHERE m1.orchestra_id = m.orchestra_id)
 
 
-/*
-
-*/
-
 SELECT
     m.name
 FROM
@@ -47,4 +43,18 @@ WHERE
         FROM    members AS mm
         WHERE   mm.position = 'violin'
                 AND
-                m.orchestra_id = mm.orchestra_id)
+                m.orchestra_id = mm.orchestra_id);
+
+SELECT
+    o.name,
+    o.rating,
+    o.city_origin,
+    (SELECT COUNT(*) 
+     FROM concerts AS c 
+     WHERE  c.country = 'Ukraine' 
+            AND 
+            o.id = c.orchestra_id) AS count
+FROM
+    orchestras AS o
+WHERE
+    o.country_origin = 'Germany'
