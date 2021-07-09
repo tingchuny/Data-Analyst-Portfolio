@@ -99,3 +99,23 @@ SELECT
 FROM
     orders                      AS o
     JOIN clients                AS c ON c.id = o.client_id
+    
+    
+/*
+By not joining the two tables, all the possible combinations are created,
+then using where to set the rull instead of using CASE statment.
+*/
+SELECT
+    first_name,
+    last_name,
+    salary,
+    grade
+FROM
+    employee,
+    salgrade
+WHERE
+    salary BETWEEN lower_limit AND upper_limit
+    
+    
+    
+    
