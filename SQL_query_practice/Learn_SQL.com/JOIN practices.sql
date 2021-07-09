@@ -116,6 +116,3 @@ FROM
 WHERE
     salary BETWEEN lower_limit AND upper_limit
     
-    
-    
-    
