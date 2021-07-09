@@ -17,7 +17,6 @@ HAVING
                             AS d)
     
 
-
 /*
 correlated subquries
 */
@@ -32,3 +31,20 @@ WHERE
         (SELECT MAX(experience)
         FROM members AS m1 
         WHERE m1.orchestra_id = m.orchestra_id)
+
+
+/*
+
+*/
+
+SELECT
+    m.name
+FROM
+    members AS m
+WHERE
+    m.wage >
+        (SELECT AVG(mm.wage)
+        FROM    members AS mm
+        WHERE   mm.position = 'violin'
+                AND
+                m.orchestra_id = mm.orchestra_id)
