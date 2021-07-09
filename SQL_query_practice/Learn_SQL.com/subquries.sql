@@ -29,6 +29,6 @@ FROM
     JOIN orchestras AS o ON m.orchestra_id = o.id
 WHERE
     m.experience = 
-    (SELECT MAX(experience)
-    FROM members AS m1 
-    WHERE m1.orchestra_id = m.orchestra_id)
+        (SELECT MAX(experience)
+        FROM members AS m1 
+        WHERE m1.orchestra_id = m.orchestra_id)
