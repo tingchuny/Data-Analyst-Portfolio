@@ -55,6 +55,14 @@ SELECT
             AND 
             o.id = c.orchestra_id) AS count
 FROM
-    orchestras AS o
+    orchestras  AS o
 WHERE
-    o.country_origin = 'Germany'
+    o.country_origin = 'Germany';
+
+SELECT
+    m.name                      AS name,
+    (SELECT COUNT(*) 
+    FROM piece_of_art AS p 
+    WHERE p.museum_id = m.id)   AS piece_count
+FROM
+    museum      AS m
