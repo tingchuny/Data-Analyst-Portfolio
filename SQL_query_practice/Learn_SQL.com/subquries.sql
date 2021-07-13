@@ -66,3 +66,21 @@ SELECT
     WHERE p.museum_id = m.id)   AS piece_count
 FROM
     museum      AS m
+
+
+/*
+subqury in WHERE clause
+*/
+
+SELECT
+	o.name,
+    c.city,
+	c.rating
+FROM
+	orchestras      AS o
+    JOIN concerts   AS c ON o.id = c.orchestra_id
+WHERE
+	c.rating IN (
+        SELECT MAX(rating)
+        FROM concerts
+        WHERE concerts.orchestra_id = o.id)
