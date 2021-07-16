@@ -91,19 +91,20 @@ LEFT JOIN vs Using subqury to get the same result
 */
 
 SELECT
-  k.last_name,
-  k.first_name,
-  k.experience
+    k.last_name,
+    k.first_name,
+    k.experience
 FROM 
-	dog_sitter k
-	LEFT JOIN care c ON k.id = c.dog_sitter_id
-WHERE c.dog_id IS NULL;
+    dog_sitter k
+    LEFT JOIN care c ON k.id = c.dog_sitter_id
+WHERE
+    c.dog_id IS NULL;
 
 SELECT
-	s.last_name,
+    s.last_name,
     s.first_name,
     s.experience
 FROM
-	dog_sitter AS s
+    dog_sitter AS s
 WHERE
-	s.id NOT IN (SELECT dog_sitter_id FROM care)
+    s.id NOT IN (SELECT dog_sitter_id FROM care)
