@@ -73,14 +73,14 @@ subqury in WHERE clause
 */
 
 SELECT
-	o.name,
+    o.name,
     c.city,
-	c.rating
+    c.rating
 FROM
-	orchestras      AS o
+    orchestras      AS o
     JOIN concerts   AS c ON o.id = c.orchestra_id
 WHERE
-	c.rating IN (
+    c.rating IN (
         SELECT MAX(rating)
         FROM concerts
         WHERE concerts.orchestra_id = o.id)
