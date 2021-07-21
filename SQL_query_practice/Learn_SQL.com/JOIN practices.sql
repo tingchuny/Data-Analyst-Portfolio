@@ -129,3 +129,31 @@ GROUP BY
     1
 HAVING
     COUNT(cl.id) > 2
+    
+/*
+The following 2 queries shows the same result
+*/
+
+SELECT
+    cu.last_name,
+    cu.first_name,
+    co.name
+FROM
+    customer AS cu
+    JOIN color AS co ON cu.favorite_color_id = co.id
+WHERE
+    cu.id NOT IN (SELECT customer_id
+                  FROM clothing_order);
+
+SELECT
+    cu.last_name,
+    cu.first_name,
+    co.name
+FROM
+    customer cu
+JOIN
+    color AS co ON co.id = cu.favorite_color_id
+LEFT JOIN
+    clothing_order AS clo ON clo.customer_id = cu.id
+WHERE
+    clo.customer_id IS NULL;
