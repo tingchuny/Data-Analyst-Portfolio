@@ -116,3 +116,16 @@ FROM
 WHERE
     salary BETWEEN lower_limit AND upper_limit
     
+/*
+*/
+
+SELECT
+    cat.name
+FROM
+    category AS cat
+    JOIN clothing AS cl ON cl.category_id = cat.id
+                        AND cat.parent_id IS NULL
+GROUP BY
+    1
+HAVING
+    COUNT(cl.id) > 2
